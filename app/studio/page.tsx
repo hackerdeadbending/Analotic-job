@@ -18,8 +18,8 @@ type ContentItem = {
 };
 
 const statusLabels: Record<string, string> = {
-  idea: "Idea", draft: "Draft", in_review: "In review", approved: "Approved",
-  scheduled: "Scheduled", publishing: "Publishing", published: "Published", failed: "Failed",
+  idea: "Ідея", draft: "Чернетка", in_review: "На перевірці", approved: "Погоджено",
+  scheduled: "Заплановано", publishing: "Публікується", published: "Опубліковано", failed: "Помилка",
 };
 
 export default async function StudioPage({
@@ -90,7 +90,7 @@ export default async function StudioPage({
           {матеріалів.length ? <div className="studio-матеріалів">{матеріалів.map((item) => (
             <article className="studio-item" key={item.id}>
               <div className="studio-item-icon"><FileText size={18}/></div>
-              <div className="studio-item-main"><h3>{item.title}</h3><p>{item.body || "Підпис або опис ще не додано."}</p><div><span>{item.platform || "Unassigned channel"}</span><i>·</i><span>{item.content_type}</span><i>·</i><span>{new Date(item.created_at).toLocaleDateString("en", { month: "short", day: "numeric" })}</span></div></div>
+              <div className="studio-item-main"><h3>{item.title}</h3><p>{item.body || "Підпис або опис ще не додано."}</p><div><span>{item.platform || "Unassigned channel"}</span><i>·</i><span>{item.content_type}</span><i>·</i><span>{new Date(item.created_at).toLocaleDateString("uk-UA", { month: "short", day: "numeric" })}</span></div></div>
               <span className={`studio-status status-${item.status}`}>{statusLabels[item.status] || item.status}</span>
             </article>
           ))}</div> : <div className="studio-empty"><FileText size={22}/><h3>Твоя бібліотека контенту is ready.</h3><p>Створи першу чернетку — і вона з’явиться тут.</p></div>}
