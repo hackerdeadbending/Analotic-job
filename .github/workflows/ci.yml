@@ -10,8 +10,8 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
-      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_placeholder
+      NEXT_PUBLIC_SUPABASE_URL: https://qhzhitcrtzhleqxnsrzy.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_P-a0Tg_rx1w5hlUETX8JsQ_hghDH_Ag
     steps:
       - name: Checkout
         uses: actions/checkout@v4
