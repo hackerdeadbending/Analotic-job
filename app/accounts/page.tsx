@@ -86,7 +86,7 @@ export default async function AccountsPage({
           <div className="accounts-section-heading"><div><h2>Available integrations</h2><p>Start with the channel you want to grow first.</p></div></div>
           <article className="integration-option">
             <div className="integration-logo"><Instagram size={24}/></div>
-            <div className="integration-copy"><h3>Instagram</h3><p>Connect a Business or Creator account using Meta's official Instagram Login.</p><div className="integration-permissions"><span>Profile</span><span>Publishing</span><span>Comments</span><span>Messaging</span></div></div>
+            <div className="integration-copy"><h3>Instagram</h3><p>Connect a Business or Creator account using Meta&apos;s official Instagram Login.</p><div className="integration-permissions"><span>Profile</span><span>Publishing</span><span>Comments</span><span>Messaging</span></div></div>
             <Link href="/api/integrations/instagram/connect" className="integration-connect"><Plus size={15}/> Connect</Link>
           </article>
           <div className="accounts-security-note"><ShieldCheck size={17}/><span>Access tokens are encrypted before storage. SocialPilot requests only the permissions needed for enabled features. You can revoke access from Instagram at any time.</span></div>
