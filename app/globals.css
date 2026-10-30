@@ -136,3 +136,8 @@
 .account-alert{display:flex;align-items:flex-start;gap:9px;padding:12px 14px;border-radius:8px;margin:0 0 18px;font-size:10px;line-height:1.6}
 .account-alert.success{background:#eaf8f2;color:#287c60}.account-alert.error{background:#fff0f1;color:#a84251}
 @media(max-width:760px){.accounts-content{padding:30px 16px}.accounts-topbar{padding:0 16px}.accounts-heading{align-items:flex-start;gap:12px}.accounts-heading h1{font-size:25px}.integration-option{align-items:flex-start;flex-wrap:wrap}.integration-connect{margin-left:61px}}
+
+
+.channel-empty{padding:20px 10px;display:grid;gap:9px;text-align:center;color:#9996a3;font-size:10px}
+.channel-empty a{display:inline-flex;align-items:center;justify-content:center;gap:5px;color:#8873df;text-decoration:none;font-size:10px;font-weight:700}
+.connected.connected{color:#299d77}.connected.expired,.connected.revoked,.connected.error{color:#bd7b3c}
