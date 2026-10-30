@@ -15,11 +15,11 @@ SocialPilot AI brings multi-brand planning, AI strategy, content production, pub
 
 ## Local development
 
-1. Install Node.js 20.9+.
+1. Install Node.js 22+.
 2. Run `npm install`.
-3. Copy `.env.example` to `.env.local`.
-4. Add the Supabase project URL and publishable key.
-5. Run `npm run dev`.
+3. Copy `.env.example` to `.env.local` and add the required local values.
+4. Run `npm run dev` for the Next.js development server.
+5. Run `npm run preview` to build and test the Cloudflare Workers runtime locally (Wrangler authentication may be required for remote resources).
 
 ## Environment
 
@@ -35,6 +35,16 @@ INSTAGRAM_TOKEN_ENCRYPTION_KEY=
 ```
 
 Never commit service-role keys, OAuth client secrets, access tokens or refresh tokens. Instagram tokens are encrypted server-side with AES-256-GCM before storage in a table that denies all client roles; only the server-only Supabase secret key can access it. Never expose SUPABASE_SECRET_KEY, INSTAGRAM_APP_SECRET, INSTAGRAM_OAUTH_STATE_SECRET or INSTAGRAM_TOKEN_ENCRYPTION_KEY to the browser.
+
+## Cloudflare deployment
+
+The app uses the OpenNext Cloudflare adapter and deploys as a Cloudflare Worker (not a static Pages export). In Cloudflare, create a Worker connected to `hackerdeadbending/Analotic-job`, production branch `main`, root directory `/`. Configure the Workers Builds commands:
+
+- Build command: `npx @opennextjs/cloudflare build`
+- Deploy command: `npx @opennextjs/cloudflare deploy`
+- Build environment: Node.js 22 and the public Supabase URL + publishable key (needed for build-time `NEXT_PUBLIC_` substitution).
+
+Add the runtime variables/secrets in the Worker settings before testing authentication: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `INSTAGRAM_APP_ID`, `INSTAGRAM_APP_SECRET`, `INSTAGRAM_REDIRECT_URI`, `INSTAGRAM_OAUTH_STATE_SECRET`, and `INSTAGRAM_TOKEN_ENCRYPTION_KEY`. Set the callback URL to `https://<your-worker-domain>/api/integrations/instagram/callback`. Keep secrets server-only; never add them to GitHub. After creating the Worker, make sure its name matches `socialpilot-ai` in `wrangler.jsonc`, or update both names together. No R2 cache is provisioned by this setup; the current app does not depend on ISR caching.
 
 ## Instagram setup
 
@@ -69,6 +79,8 @@ The initial Instagram Login scopes are `instagram_business_basic`, `instagram_bu
 - [x] Brand project listing and creation
 - [x] Instagram Login OAuth routes and account connection UI
 - [x] Server-side AES-256-GCM token encryption and client-denied credential storage
+- [x] Cloudflare Workers deployment configuration (OpenNext)
+- [ ] Cloudflare Worker deployment and runtime verification
 - [ ] Content studio and calendar
 - [ ] Publishing queue and Cloudflare worker
 - [ ] Analytics and AI growth recommendations
