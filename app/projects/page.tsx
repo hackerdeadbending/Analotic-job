@@ -58,7 +58,7 @@ export default async function ProjectsPage({
         </div>
 
         {params.created === "1" && <p className="project-feedback success">Your brand project has been created.</p>}
-        {params.error && <p className="project-feedback error">We couldn't create that project. Check the details and try again.</p>}
+        {params.error && <p className="project-feedback error">We couldn&apos;t create that project. Check the details and try again.</p>}
 
         <div className="projects-layout">
           <section className="projects-list">
