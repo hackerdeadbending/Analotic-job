@@ -77,12 +77,14 @@ export function instagramRedirectUri(requestUrl: string) {
 }
 
 export function instagramOAuthConfigured() {
+  const state = process.env.INSTAGRAM_OAUTH_STATE_SECRET ?? "";
+  const encryption = process.env.INSTAGRAM_TOKEN_ENCRYPTION_KEY ?? "";
   return Boolean(
     process.env.INSTAGRAM_APP_ID &&
     process.env.INSTAGRAM_APP_SECRET &&
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
     process.env.SUPABASE_SECRET_KEY &&
-    process.env.INSTAGRAM_OAUTH_STATE_SECRET &&
-    process.env.INSTAGRAM_TOKEN_ENCRYPTION_KEY
+    state.length >= 32 &&
+    /^[a-f0-9]{64}$/i.test(encryption)
   );
 }
