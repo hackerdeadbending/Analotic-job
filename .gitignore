@@ -8,3 +8,8 @@ build
 .vercel
 .DS_Store
 *.log
+.open-next
+.wrangler
+.dev.vars
+.dev.vars.*
+cloudflare-env.d.ts
