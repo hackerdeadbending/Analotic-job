@@ -28,6 +28,9 @@ export async function middleware(request: NextRequest) {
 
   const { data } = await supabase.auth.getClaims();
   const isAuthPage = request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/signup";
+  const isAuthCallback = request.nextUrl.pathname.startsWith("/auth/");
+
+  if (isAuthCallback) return response;
 
   if (!data?.claims && !isAuthPage) {
     const redirectUrl = new URL("/login", request.url);
