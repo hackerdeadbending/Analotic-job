@@ -1,20 +1,15 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { env as cloudflareEnv } from "cloudflare:workers";
 
 /**
- * Read a setting from Next.js process.env first, then from the current
- * Cloudflare Worker request environment. The latter is important for
- * Workers runtime variables when the Node.js compatibility bridge does not
- * populate process.env for a particular execution path.
+ * Read runtime configuration from the Cloudflare Worker first, then fall
+ * back to process.env for local development and build-time configuration.
  */
 export function getRuntimeEnv(name: string): string | undefined {
-  const nodeValue = process.env[name];
-  if (nodeValue) return nodeValue;
-
-  try {
-    const { env } = getCloudflareContext();
-    const value = (env as unknown as Record<string, unknown>)[name];
-    return typeof value === "string" && value.length > 0 ? value : undefined;
-  } catch {
-    return undefined;
+  const workerValue = cloudflareEnv[name];
+  if (typeof workerValue === "string" && workerValue.length > 0) {
+    return workerValue;
   }
+
+  const nodeValue = process.env[name];
+  return nodeValue && nodeValue.length > 0 ? nodeValue : undefined;
 }
