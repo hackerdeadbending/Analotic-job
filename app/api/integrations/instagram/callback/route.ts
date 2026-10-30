@@ -20,7 +20,7 @@ function returnToAccounts(request: NextRequest, result: string) {
 export async function GET(request: NextRequest) {
   const cookieName = "socialpilot_ig_oauth";
   const stateCookie = request.cookies.get(cookieName)?.value;
-  const state = verifyInstagramStateCookie(stateCookie, request.nextUrl.searchParams.get("state"));
+  let state = null;\n  try { state = verifyInstagramStateCookie(stateCookie, request.nextUrl.searchParams.get("state")); } catch { state = null; }
   const responseCookie = (response: NextResponse) => {
     response.cookies.set(cookieName, "", { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/api/integrations/instagram", maxAge: 0 });
     return response;
@@ -131,7 +131,7 @@ export async function GET(request: NextRequest) {
 
     const credentialId = existing?.credential_ref || crypto.randomUUID();
     const encrypted = encryptInstagramToken(longToken.access_token);
-    const { error: credentialError } = await admin.from("integration_credentials").upsert({
+    const { data: savedCredential, error: credentialError } = await admin.from("integration_credentials").upsert({
       id: credentialId,
       workspace_id: state.workspaceId,
       social_account_id: accountId,
@@ -144,7 +144,7 @@ export async function GET(request: NextRequest) {
 
     const { error: referenceError } = await admin
       .from("social_accounts")
-      .update({ credential_ref: credentialId })
+      .update({ credential_ref: savedCredential.id })
       .eq("id", accountId)
       .eq("workspace_id", state.workspaceId);
     if (referenceError) throw referenceError;
