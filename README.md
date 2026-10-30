@@ -44,7 +44,7 @@ Never commit service-role keys, OAuth client secrets, access tokens or refresh t
 - [x] Supabase project provisioned in Frankfurt
 - [x] Multi-workspace database foundation with Row Level Security
 - [x] Security-definer RPC permissions hardened
-- [ ] Authentication screens and session handling
+- [x] Email authentication screens and cookie-based session handling
 - [ ] Brand/project management
 - [ ] Instagram OAuth connection
 - [ ] Content studio and calendar
