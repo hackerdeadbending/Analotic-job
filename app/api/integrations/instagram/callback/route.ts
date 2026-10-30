@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -86,7 +87,7 @@ export async function GET(request: NextRequest) {
       fields: "user_id,username,name,account_type,profile_picture_url",
       access_token: longToken.access_token,
     });
-    const profileResponse = await fetch(`https://graph.instagram.com/me?${profileParams}`, { cache: "no-store" });
+    const profileResponse = await fetch(`https://graph.instagram.com/me?${profileParams}`, { headers: { Authorization: `Bearer ${longToken.access_token}` }, cache: "no-store" });
     const profile = await profileResponse.json() as InstagramProfile & { error?: { message?: string } };
     const externalAccountId = String(profile.user_id ?? profile.id ?? shortToken.user_id ?? "");
     if (!profileResponse.ok || !externalAccountId) {
@@ -130,7 +131,7 @@ export async function GET(request: NextRequest) {
       accountId = created.id;
     }
 
-    const credentialId = existing?.credential_ref || crypto.randomUUID();
+    const credentialId = existing?.credential_ref || randomUUID();
     const encrypted = encryptInstagramToken(longToken.access_token);
     const { data: savedCredential, error: credentialError } = await admin.from("integration_credentials").upsert({
       id: credentialId,
