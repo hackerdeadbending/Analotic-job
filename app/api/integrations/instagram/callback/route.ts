@@ -130,6 +130,7 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
       accountId = created.id;
     }
+    if (!accountId) throw new Error("Instagram account record was not returned.");
 
     const credentialId = existing?.credential_ref || randomUUID();
     const encrypted = encryptInstagramToken(longToken.access_token);
