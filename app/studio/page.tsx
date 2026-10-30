@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ArrowLeft, FileText, Instagram, Layers3, Plus, Sparkles } from "lucide-react";
 import { createContentDraft } from "@/app/actions";
 import { createClient } from "@/lib/supabase/server";
+import { AIContentStudio } from "@/components/ai-content-studio";
 
 type Project = { id: string; name: string };
 type ContentItem = {
@@ -62,7 +63,7 @@ export default async function StudioPage({
         {params.created === "1" && <p className="project-feedback success">Draft saved to your workspace.</p>}
         {params.error && <p className="project-feedback error">{params.error === "project" ? "That brand project isn't available in this workspace." : params.error === "workspace" ? "No active workspace was found." : "We couldn't save this draft. Please check the fields and try again."}</p>}
 
-        <div className="studio-layout">
+        <AIContentStudio projects={projects} />\n\n        <div className="studio-layout">
           <section className="studio-editor">
             <div className="studio-card-heading"><div className="studio-icon"><Sparkles size={18}/></div><div><h2>New content draft</h2><p>Start with a clear idea. You can refine it any time.</p></div></div>
             <form action={createContentDraft} className="studio-form">
