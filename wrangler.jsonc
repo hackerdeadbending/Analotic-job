@@ -3,7 +3,10 @@
   "name": "analotic-job",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-30",
-  "compatibility_flags": ["nodejs_compat", "nodejs_compat_populate_process_env"],
+  "compatibility_flags": [
+    "nodejs_compat",
+    "nodejs_compat_populate_process_env"
+  ],
   "vars": {
     "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_P-a0Tg_rx1w5hlUETX8JsQ_hghDH_Ag",
     "NEXT_PUBLIC_SUPABASE_URL": "https://qhzhitcrtzhleqxnsrzy.supabase.co"
@@ -20,5 +23,8 @@
   ],
   "observability": {
     "enabled": true
+  },
+  "ai": {
+    "binding": "AI"
   }
 }
