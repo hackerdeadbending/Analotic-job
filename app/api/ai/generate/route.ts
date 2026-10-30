@@ -21,12 +21,12 @@ type AiBinding = {
 export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Please sign in again." }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "Будь ласка, увійди ще раз." }, { status: 401 });
 
   const { data: membership } = await supabase.from("workspace_members")
     .select("workspace_id").eq("user_id", user.id).limit(1).maybeSingle();
   if (!membership?.workspace_id) {
-    return NextResponse.json({ error: "No workspace found for this account." }, { status: 403 });
+    return NextResponse.json({ error: "Для цього акаунта не знайдено робочого простору." }, { status: 403 });
   }
 
   let input: {
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   try {
     input = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+    return NextResponse.json({ error: "Некоректний запит." }, { status: 400 });
   }
 
   const topic = String(input.topic ?? "").trim().slice(0, 700);
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
   const language = String(input.language ?? "English").slice(0, 50);
 
   if (topic.length < 3 || !platforms.includes(platform) || !formats.includes(format)) {
-    return NextResponse.json({ error: "Add a topic and choose a valid platform and format." }, { status: 400 });
+    return NextResponse.json({ error: "Додай тему та вибери коректні платформу й формат." }, { status: 400 });
   }
 
   const prompt = [
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Cloudflare Workers AI generation failed", error);
     return NextResponse.json(
-      { error: "AI is temporarily unavailable or its daily free allowance has been reached. Please try again later." },
+      { error: "AI тимчасово недоступний або вичерпано денний безкоштовний ліміт. Спробуй пізніше." },
       { status: 502 },
     );
   }
