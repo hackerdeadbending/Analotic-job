@@ -6,7 +6,7 @@ import {
   Activity, ArrowRight, ArrowUpRight, BarChart3, Bell,
   CalendarDays, Check, ChevronDown, CircleHelp,
   FileText, Flame, Grid2X2, Instagram, Layers3, MessageCircle, MoreHorizontal,
-  Plus, Search, Налаштування2, Sparkles, Target, TrendingUp, Video, Zap,
+  Plus, Search, Settings2, Sparkles, Target, TrendingUp, Video, Zap,
 } from "lucide-react";
 
 const metrics = [
@@ -37,7 +37,7 @@ function Sidebar({ userName, workspaceName }: { userName: string; workspaceName:
 }
 
 function Header() {
-  return <header className="topbar"><div className="breadcrumb">Workspace <span>/</span> <b>Огляд</b></div><div className="top-actions"><div className="search-box"><Search size={15}/><span>Пошук...</span><kbd>⌘ K</kbd></div><button className="icon-button"><Bell size={17}/><i/></button><div className="top-avatar">D</div></div></header>;
+  return <header className="topbar"><div className="breadcrumb">Робочий простір <span>/</span> <b>Огляд</b></div><div className="top-actions"><div className="search-box"><Search size={15}/><span>Пошук...</span><kbd>⌘ K</kbd></div><button className="icon-button"><Bell size={17}/><i/></button><div className="top-avatar">D</div></div></header>;
 }
 
 export default async function Home() {
