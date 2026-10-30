@@ -1,27 +1,20 @@
 /**
- * Read configuration through statically referenced process.env properties.
- *
- * Static references are important here: Next.js can inline the public
- * Supabase values during the Cloudflare build, while
- * nodejs_compat_populate_process_env exposes Worker runtime variables to
- * server-side code. Dynamic process.env[name] access is not inlined by Next.
+ * Public Supabase configuration has safe, project-specific fallbacks because
+ * NEXT_PUBLIC_* values can be absent from a Cloudflare build environment.
+ * These values are intentionally public; never put the Supabase secret key here.
  */
-export function getRuntimeEnv(name: string): string | undefined {
-  let value: string | undefined;
+const PUBLIC_SUPABASE_URL = "https://qhzhitcrtzhleqxnsrzy.supabase.co";
+const PUBLIC_SUPABASE_KEY = "sb_publishable_P-a0Tg_rx1w5hlUETX8JsQ_hghDH_Ag";
 
+export function getRuntimeEnv(name: string): string | undefined {
   switch (name) {
     case "NEXT_PUBLIC_SUPABASE_URL":
-      value = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      break;
+      return process.env.NEXT_PUBLIC_SUPABASE_URL || PUBLIC_SUPABASE_URL;
     case "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY":
-      value = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-      break;
+      return process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || PUBLIC_SUPABASE_KEY;
     case "SUPABASE_SECRET_KEY":
-      value = process.env.SUPABASE_SECRET_KEY;
-      break;
+      return process.env.SUPABASE_SECRET_KEY || undefined;
     default:
-      value = undefined;
+      return undefined;
   }
-
-  return value && value.length > 0 ? value : undefined;
 }
