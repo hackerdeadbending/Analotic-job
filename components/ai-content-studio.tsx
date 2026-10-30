@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, WandSparkles, Копіювати, Check, LoaderCircle } from "lucide-react";
+import { Sparkles, WandSparkles, Copy, Check, LoaderCircle } from "lucide-react";
 import { createContentDraft } from "@/app/actions";
 
 type Project = { id: string; name: string };
@@ -14,7 +14,7 @@ export function AIContentStudio({ projects }: { projects: Project[] }) {
   const [tone, setТон] = useState("впевнений і захопливий");
   const [audience, setАудиторія] = useState("");
   const [goal, setМета] = useState("engagement");
-  const [language, setМова] = useState("Англійська");
+  const [language, setМова] = useState("Українська");
   const [projectId, setProjectId] = useState("");
   const [draft, setDraft] = useState<Draft | null>(null);
   const [error, setError] = useState("");
@@ -61,7 +61,7 @@ export function AIContentStudio({ projects }: { projects: Project[] }) {
     <button className="ai-generate-button" type="button" onClick={generate} disabled={loading || topic.trim().length<3}>{loading?<LoaderCircle size={16} className="ai-spin"/>:<Sparkles size={16}/>} {loading?"Створюємо чернетку…":"Згенерувати контент"}</button>
     {error && <p className="ai-error">{error}</p>}
     {draft && <div className="ai-result">
-      <div className="ai-result-head"><div><span>ТВОЯ ЗГЕНЕРОВАНА ЧЕРНЕТКА</span><h3>{draft.title}</h3></div><button type="button" onClick={copyDraft}>{copied?<Check size={14}/>:<Копіювати size={14}/>} {copied?"Скопійовано":"Копіювати"}</button></div>
+      <div className="ai-result-head"><div><span>ТВОЯ ЗГЕНЕРОВАНА ЧЕРНЕТКА</span><h3>{draft.title}</h3></div><button type="button" onClick={copyDraft}>{copied?<Check size={14}/>:<Copy size={14}/>} {copied?"Скопійовано":"Копіювати"}</button></div>
       {draft.hook && <div className="ai-result-block"><b>Початковий гачок</b><p>{draft.hook}</p></div>}
       <label className="ai-result-block">Підпис<textarea name="body" form="ai-save-form" defaultValue={[draft.caption,draft.hashtags.join(" ")].filter(Boolean).join("\n\n")} rows={8} maxLength={5000}/></label>
       {draft.call_to_action && <div className="ai-result-block"><b>Заклик до дії</b><p>{draft.call_to_action}</p></div>}
