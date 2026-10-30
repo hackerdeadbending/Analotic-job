@@ -45,6 +45,10 @@ Never commit service-role keys, OAuth client secrets, access tokens or refresh t
 - [x] Multi-workspace database foundation with Row Level Security
 - [x] Security-definer RPC permissions hardened
 - [x] Email authentication screens and cookie-based session handling
+- [x] Protected dashboard routes and secure sign-out
+- [x] Workspace-aware dashboard identity
+- [x] Brand project listing and creation
+- [x] GitHub Actions lint/build workflow
 - [ ] Brand/project management
 - [ ] Instagram OAuth connection
 - [ ] Content studio and calendar
