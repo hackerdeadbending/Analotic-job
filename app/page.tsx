@@ -1,3 +1,6 @@
+import { signOut } from "@/app/actions";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import {
   Activity, ArrowRight, ArrowUpRight, BarChart3, Bell,
   CalendarDays, Check, ChevronDown, CircleHelp,
@@ -36,8 +39,20 @@ function Header() {
   return <header className="topbar"><div className="breadcrumb">Workspace <span>/</span> <b>Overview</b></div><div className="top-actions"><div className="search-box"><Search size={15}/><span>Search anything...</span><kbd>⌘ K</kbd></div><button className="icon-button"><Bell size={17}/><i/></button><div className="top-avatar">D</div></div></header>;
 }
 
-export default function Home() {
-  return <div className="app-shell"><Sidebar/><main className="main-area"><Header/><div className="page-content">
+export default async function Home() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+  const [{ data: profile }, { data: membership }] = await Promise.all([
+    supabase.from("profiles").select("display_name").eq("id", user.id).maybeSingle(),
+    supabase.from("workspace_members").select("workspace_id").eq("user_id", user.id).limit(1).maybeSingle(),
+  ]);
+  const { data: workspace } = membership?.workspace_id
+    ? await supabase.from("workspaces").select("name").eq("id", membership.workspace_id).maybeSingle()
+    : { data: null };
+  const userName = profile?.display_name || user.user_metadata?.full_name || user.email?.split("@")[0] || "Creator";
+  const workspaceName = workspace?.name || "My workspace";
+  return <div className="app-shell"><Sidebar userName={userName} workspaceName={workspaceName}/><main className="main-area"><Header/><div className="page-content">
     <section className="welcome-row"><div><div className="eyebrow"><span className="live-dot"/> YOUR GROWTH HQ</div><h1>Good evening, {userName} <span>✳</span></h1><p className="subtitle">Here’s what’s happening across your social universe.</p></div><div className="welcome-actions"><button className="secondary-button"><CalendarDays size={15}/> Last 30 days <ChevronDown size={14}/></button><button className="primary-button"><Plus size={16}/> Create content</button></div></section>
     <section className="insight-banner"><div className="insight-symbol"><Sparkles size={20}/></div><div className="insight-copy"><span>AI GROWTH MANAGER · SAMPLE INSIGHT</span><b>Your Reels are outperforming static posts by 2.4× this month.</b><p>Double down on short-form video. Your audience is most active between 18:00–20:00.</p></div><button className="insight-link">See recommendations <ArrowRight size={15}/></button></section>
     <section className="section-heading"><div><h2>Performance snapshot</h2><p>Sample data preview — connect accounts to see live results</p></div><button className="text-button">Full analytics <ArrowRight size={14}/></button></section>
