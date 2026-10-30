@@ -44,21 +44,21 @@ export default async function ProjectsPage({
   return (
     <main className="projects-shell">
       <header className="projects-topbar">
-        <Link href="/" className="projects-back"><ArrowLeft size={16}/> Back to overview</Link>
+        <Link href="/" className="projects-back"><ArrowLeft size={16}/> Назад до огляду</Link>
         <span className="projects-brand"><Sparkles size={16}/> socialpilot<span>.ai</span></span>
       </header>
       <div className="projects-content">
         <div className="projects-heading">
           <div>
-            <div className="projects-eyebrow">YOUR BRAND ECOSYSTEM</div>
-            <h1>Brand projects</h1>
-            <p>Give every brand its own strategy, voice, content and connected channels.</p>
+            <div className="projects-eyebrow">ТВОЯ ЕКОСИСТЕМА БРЕНДІВ</div>
+            <h1>Бренд-проєкти</h1>
+            <p>Створи для кожного бренду власну стратегію, стиль, контент і підключені канали.</p>
           </div>
           <span className="projects-count">{projects.length} {projects.length === 1 ? "project" : "projects"}</span>
         </div>
 
-        {params.created === "1" && <p className="project-feedback success">Your brand project has been created.</p>}
-        {params.error && <p className="project-feedback error">We couldn&apos;t create that project. Check the details and try again.</p>}
+        {params.created === "1" && <p className="project-feedback success">Бренд-проєкт створено.</p>}
+        {params.error && <p className="project-feedback error">Не вдалося створити проєкт. Перевір дані та спробуй ще раз.</p>}
 
         <div className="projects-layout">
           <section className="projects-list">
@@ -67,31 +67,31 @@ export default async function ProjectsPage({
                 <div className="project-avatar"><BriefcaseBusiness size={19}/></div>
                 <div className="project-card-copy">
                   <div className="project-card-title"><h2>{project.name}</h2><span className={`project-status ${project.status}`}>{project.status}</span></div>
-                  <p>{project.description || "No brand description yet."}</p>
-                  <div className="project-card-meta"><span>{project.industry || "Industry not set"}</span><span>Created {new Date(project.created_at).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}</span></div>
+                  <p>{project.description || "Опис бренду ще не додано."}</p>
+                  <div className="project-card-meta"><span>{project.industry || "Галузь не вказана"}</span><span>Створено {new Date(project.created_at).toLocaleDateString("uk-UA", { month: "short", day: "numeric", year: "numeric" })}</span></div>
                 </div>
                 <ArrowUpRight className="project-open-icon" size={17}/>
               </article>
             )) : (
               <div className="projects-empty">
                 <div className="projects-empty-icon"><BriefcaseBusiness size={24}/></div>
-                <h2>Your brand universe starts here.</h2>
-                <p>Create your first project to give its strategy, audience, content and social accounts a dedicated home.</p>
+                <h2>Твоя екосистема брендів починається тут.</h2>
+                <p>Створи перший проєкт, щоб зібрати його стратегію, аудиторію, контент і соціальні акаунти в одному місці.</p>
               </div>
             )}
           </section>
 
           <aside className="project-create-card">
             <div className="create-card-icon"><Plus size={18}/></div>
-            <h2>Create a brand project</h2>
-            <p>Start with the basics. You can define your audience and brand voice later.</p>
+            <h2>Створити бренд-проєкт</h2>
+            <p>Почни з основ. Аудиторію та стиль бренду можна визначити пізніше.</p>
             <form action={createBrandProject} className="project-form">
-              <label>Project name<input name="name" placeholder="e.g. Personal Brand" required maxLength={80}/></label>
-              <label>Industry <span>Optional</span><input name="industry" placeholder="e.g. Fashion, Fitness, Tech" maxLength={80}/></label>
-              <label>Description <span>Optional</span><textarea name="description" placeholder="What is this brand about?" rows={3} maxLength={500}/></label>
-              <button type="submit"><Plus size={15}/> Create project</button>
+              <label>Назва проєкту<input name="name" placeholder="Наприклад, особистий бренд" required maxLength={80}/></label>
+              <label>Галузь <span>Необов’язково</span><input name="industry" placeholder="Наприклад, мода, фітнес, технології" maxLength={80}/></label>
+              <label>Опис <span>Необов’язково</span><textarea name="description" placeholder="Про що цей бренд?" rows={3} maxLength={500}/></label>
+              <button type="submit"><Plus size={15}/> Створити проєкт</button>
             </form>
-            <div className="project-form-note">Each project stays inside your private workspace.</div>
+            <div className="project-form-note">Кожен проєкт залишається у твоєму приватному робочому просторі.</div>
           </aside>
         </div>
       </div>
