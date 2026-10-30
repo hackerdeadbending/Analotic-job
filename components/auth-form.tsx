@@ -71,6 +71,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           {isSignup && <label>Your name<input autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your name" required maxLength={80}/></label>}
           <label>Email address<input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" required/></label>
           <label>Password<input type="password" autoComplete={isSignup ? "new-password" : "current-password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder={isSignup ? "At least 8 characters" : "Your password"} minLength={8} required/></label>
+          {searchParams.get("setup") === "1" && <p className="auth-notice" role="status">Connect your Supabase URL and publishable key in the app environment before signing in.</p>}
           {error && <p className="auth-error" role="alert">{error}</p>}
           {notice && <p className="auth-notice" role="status">{notice}</p>}
           <button className="auth-submit" disabled={busy}>{busy ? <LoaderCircle className="spin" size={17}/> : <>{isSignup ? "Create workspace" : "Sign in"} <ArrowRight size={16}/></>}</button>
