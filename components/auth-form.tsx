@@ -10,7 +10,7 @@ type AuthFormProps = { mode: "login" | "signup" };
 
 export function AuthForm({ mode }: AuthFormProps) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setПароль] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -41,10 +41,10 @@ export function AuthForm({ mode }: AuthFormProps) {
           router.replace("/");
           router.refresh();
         } else {
-          setNotice("Check your inbox to confirm your email address. Your workspace will be ready as soon as you verify it.");
+          setNotice("Перевір пошту та підтвердь адресу. Твій робочий простір буде готовий після підтвердження.");
         }
       } else {
-        const { error: authError } = await supabase.auth.signInWithPassword({
+        const { error: authError } = await supabase.auth.signInWithПароль({
           email: email.trim(),
           password,
         });
@@ -54,7 +54,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         router.refresh();
       }
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Something went wrong. Please try again.");
+      setError(caught instanceof Error ? caught.message : "Щось пішло не так. Спробуй ще раз.");
     } finally {
       setBusy(false);
     }
@@ -64,22 +64,22 @@ export function AuthForm({ mode }: AuthFormProps) {
     <main className="auth-shell">
       <section className="auth-card">
         <Link href="/" className="auth-brand"><span><Sparkles size={19}/></span>socialpilot<span className="auth-ai">.ai</span></Link>
-        <div className="auth-kicker">YOUR GROWTH, IN ONE PLACE</div>
-        <h1>{isSignup ? "Build your growth engine." : "Welcome back."}</h1>
-        <p className="auth-intro">{isSignup ? "Create your workspace and bring every brand into focus." : "Sign in to pick up where your brands left off."}</p>
+        <div className="auth-kicker">ТВОЄ ЗРОСТАННЯ В ОДНОМУ МІСЦІ</div>
+        <h1>{isSignup ? "Створи власну систему зростання." : "З поверненням!"}</h1>
+        <p className="auth-intro">{isSignup ? "Створи робочий простір і зосередься на розвитку кожного бренду." : "Увійди, щоб продовжити роботу зі своїми брендами."}</p>
         <form onSubmit={handleSubmit} className="auth-form">
-          {isSignup && <label>Your name<input autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your name" required maxLength={80}/></label>}
-          <label>Email address<input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" required/></label>
-          <label>Password<input type="password" autoComplete={isSignup ? "new-password" : "current-password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder={isSignup ? "At least 8 characters" : "Your password"} minLength={8} required/></label>
-          {searchParams.get("setup") === "1" && <p className="auth-notice" role="status">Connect your Supabase URL and publishable key in the app environment before signing in.</p>}
+          {isSignup && <label>Твоє ім’я<input autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Твоє ім’я" required maxLength={80}/></label>}
+          <label>Електронна пошта<input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" required/></label>
+          <label>Пароль<input type="password" autoComplete={isSignup ? "new-password" : "current-password"} value={password} onChange={(event) => setПароль(event.target.value)} placeholder={isSignup ? "Щонайменше 8 символів" : "Твій пароль"} minLength={8} required/></label>
+          {searchParams.get("setup") === "1" && <p className="auth-notice" role="status">Перед входом налаштуй URL Supabase та публічний ключ у середовищі застосунку.</p>}
           {error && <p className="auth-error" role="alert">{error}</p>}
           {notice && <p className="auth-notice" role="status">{notice}</p>}
-          <button className="auth-submit" disabled={busy}>{busy ? <LoaderCircle className="spin" size={17}/> : <>{isSignup ? "Create workspace" : "Sign in"} <ArrowRight size={16}/></>}</button>
+          <button className="auth-submit" disabled={busy}>{busy ? <LoaderCircle className="spin" size={17}/> : <>{isSignup ? "Створити простір" : "Увійти"} <ArrowRight size={16}/></>}</button>
         </form>
-        <p className="auth-switch">{isSignup ? "Already have an account?" : "New to SocialPilot AI?"} <Link href={isSignup ? "/login" : "/signup"}>{isSignup ? "Sign in" : "Create an account"}</Link></p>
-        <div className="auth-foot">Private by design <span>·</span> Built for ambitious creators</div>
+        <p className="auth-switch">{isSignup ? "Вже маєш акаунт?" : "Вперше в SocialPilot AI?"} <Link href={isSignup ? "/login" : "/signup"}>{isSignup ? "Увійти" : "Створити акаунт"}</Link></p>
+        <div className="auth-foot">Приватність у кожній деталі <span>·</span> Створено для тих, хто прагне більшого</div>
       </section>
-      <aside className="auth-aside"><div className="auth-orbit orbit-one"/><div className="auth-orbit orbit-two"/><div className="auth-aside-content"><div className="auth-aside-icon"><Sparkles size={25}/></div><div className="auth-aside-label">THE AUTONOMOUS SOCIAL WORKSPACE</div><h2>Less busywork.<br/>More meaningful growth.</h2><p>One calm command center for your strategy, content, publishing and performance.</p><div className="auth-aside-points"><span>01 <b>Think with AI</b></span><span>02 <b>Create with intention</b></span><span>03 <b>Grow across channels</b></span></div></div></aside>
+      <aside className="auth-aside"><div className="auth-orbit orbit-one"/><div className="auth-orbit orbit-two"/><div className="auth-aside-content"><div className="auth-aside-icon"><Sparkles size={25}/></div><div className="auth-aside-label">АВТОНОМНИЙ ПРОСТІР ДЛЯ СОЦМЕРЕЖ</div><h2>Менше рутини.<br/>Більше справжнього зростання.</h2><p>Єдиний простір для стратегії, контенту, публікацій та аналітики.</p><div className="auth-aside-points"><span>01 <b>Плануй разом з AI</b></span><span>02 <b>Створюй зі змістом</b></span><span>03 <b>Розвивай усі канали</b></span></div></div></aside>
     </main>
   );
 }
