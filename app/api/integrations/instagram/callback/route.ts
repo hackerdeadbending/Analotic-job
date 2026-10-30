@@ -11,7 +11,7 @@ import {
 export const runtime = "nodejs";
 
 type TokenResponse = { access_token?: string; token_type?: string; expires_in?: number; user_id?: number; error_message?: string };
-type InstagramProfile = { id: string; username?: string; name?: string; account_type?: string; profile_picture_url?: string };
+type InstagramProfile = { id?: string; user_id?: string; username?: string; name?: string; account_type?: string; profile_picture_url?: string };
 
 function returnToAccounts(request: NextRequest, result: string) {
   return NextResponse.redirect(new URL(`/accounts?${result}`, request.url));
@@ -87,7 +87,8 @@ export async function GET(request: NextRequest) {
     });
     const profileResponse = await fetch(`https://graph.instagram.com/me?${profileParams}`, { cache: "no-store" });
     const profile = await profileResponse.json() as InstagramProfile & { error?: { message?: string } };
-    if (!profileResponse.ok || !profile.id) {
+    const externalAccountId = String(profile.user_id ?? profile.id ?? shortToken.user_id ?? "");
+    if (!profileResponse.ok || !externalAccountId) {
       console.error("Instagram profile fetch failed", profile.error?.message ?? profileResponse.status);
       return responseCookie(returnToAccounts(request, "error=instagram_profile"));
     }
@@ -98,7 +99,7 @@ export async function GET(request: NextRequest) {
       .select("id,credential_ref")
       .eq("workspace_id", state.workspaceId)
       .eq("platform", "instagram")
-      .eq("external_account_id", profile.id)
+      .eq("external_account_id", externalAccountId)
       .maybeSingle();
 
     const expiresAt = new Date(Date.now() + (longToken.expires_in ?? 5_184_000) * 1000).toISOString();
@@ -106,7 +107,7 @@ export async function GET(request: NextRequest) {
       workspace_id: state.workspaceId,
       brand_project_id: state.projectId,
       platform: "instagram",
-      external_account_id: profile.id,
+      external_account_id: externalAccountId,
       username: profile.username ?? null,
       display_name: profile.name ?? profile.username ?? "Instagram account",
       profile_url: profile.username ? `https://www.instagram.com/${profile.username}/` : null,
