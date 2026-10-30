@@ -31,67 +31,67 @@ export default async function ProjectsPage({
     .maybeSingle();
 
   const workspaceId = membership?.workspace_id;
-  const { data: projectsData } = workspaceId
+  const { data: проєктsData } = workspaceId
     ? await supabase
-        .from("brand_projects")
+        .from("brand_проєктs")
         .select("id,name,description,industry,status,created_at")
         .eq("workspace_id", workspaceId)
         .order("created_at", { ascending: false })
     : { data: [] as Project[] };
 
-  const projects = (projectsData ?? []) as Project[];
+  const проєктs = (проєктsData ?? []) as Project[];
 
   return (
-    <main className="projects-shell">
-      <header className="projects-topbar">
-        <Link href="/" className="projects-back"><ArrowLeft size={16}/> Back to overview</Link>
-        <span className="projects-brand"><Sparkles size={16}/> socialpilot<span>.ai</span></span>
+    <main className="проєктs-shell">
+      <header className="проєктs-topbar">
+        <Link href="/" className="проєктs-back"><ArrowLeft size={16}/> Назад до огляду</Link>
+        <span className="проєктs-brand"><Sparkles size={16}/> socialpilot<span>.ai</span></span>
       </header>
-      <div className="projects-content">
-        <div className="projects-heading">
+      <div className="проєктs-content">
+        <div className="проєктs-heading">
           <div>
-            <div className="projects-eyebrow">YOUR BRAND ECOSYSTEM</div>
-            <h1>Brand projects</h1>
-            <p>Give every brand its own strategy, voice, content and connected channels.</p>
+            <div className="проєктs-eyebrow">ТВОЯ ЕКОСИСТЕМА БРЕНДІВ</div>
+            <h1>Бренд-проєкти</h1>
+            <p>Створи для кожного бренду власну стратегію, стиль, контент і підключені канали.</p>
           </div>
-          <span className="projects-count">{projects.length} {projects.length === 1 ? "project" : "projects"}</span>
+          <span className="проєктs-count">{проєктs.length} {проєктs.length === 1 ? "проєкт" : "проєктs"}</span>
         </div>
 
-        {params.created === "1" && <p className="project-feedback success">Your brand project has been created.</p>}
-        {params.error && <p className="project-feedback error">We couldn&apos;t create that project. Check the details and try again.</p>}
+        {params.created === "1" && <p className="проєкт-feedback success">Your brand проєкт has been created.</p>}
+        {params.error && <p className="проєкт-feedback error">We couldn&apos;t create that проєкт. Check the details and try again.</p>}
 
-        <div className="projects-layout">
-          <section className="projects-list">
-            {projects.length ? projects.map((project) => (
-              <article className="project-card" key={project.id}>
-                <div className="project-avatar"><BriefcaseBusiness size={19}/></div>
-                <div className="project-card-copy">
-                  <div className="project-card-title"><h2>{project.name}</h2><span className={`project-status ${project.status}`}>{project.status}</span></div>
-                  <p>{project.description || "No brand description yet."}</p>
-                  <div className="project-card-meta"><span>{project.industry || "Industry not set"}</span><span>Created {new Date(project.created_at).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}</span></div>
+        <div className="проєктs-layout">
+          <section className="проєктs-list">
+            {проєктs.length ? проєктs.map((проєкт) => (
+              <article className="проєкт-card" key={проєкт.id}>
+                <div className="проєкт-avatar"><BriefcaseBusiness size={19}/></div>
+                <div className="проєкт-card-copy">
+                  <div className="проєкт-card-title"><h2>{проєкт.name}</h2><span className={`проєкт-status ${проєкт.status}`}>{проєкт.status}</span></div>
+                  <p>{проєкт.description || "Опис бренду ще не додано."}</p>
+                  <div className="проєкт-card-meta"><span>{проєкт.industry || "Галузь не вказана"}</span><span>Створено {new Date(проєкт.created_at).toLocaleDateString("uk-UA", { month: "short", day: "numeric", year: "numeric" })}</span></div>
                 </div>
-                <ArrowUpRight className="project-open-icon" size={17}/>
+                <ArrowUpRight className="проєкт-open-icon" size={17}/>
               </article>
             )) : (
-              <div className="projects-empty">
-                <div className="projects-empty-icon"><BriefcaseBusiness size={24}/></div>
-                <h2>Your brand universe starts here.</h2>
-                <p>Create your first project to give its strategy, audience, content and social accounts a dedicated home.</p>
+              <div className="проєктs-empty">
+                <div className="проєктs-empty-icon"><BriefcaseBusiness size={24}/></div>
+                <h2>Твоя екосистема брендів починається тут.</h2>
+                <p>Create your first проєкт to give its strategy, audience, content and social accounts a dedicated home.</p>
               </div>
             )}
           </section>
 
-          <aside className="project-create-card">
+          <aside className="проєкт-create-card">
             <div className="create-card-icon"><Plus size={18}/></div>
-            <h2>Create a brand project</h2>
-            <p>Start with the basics. You can define your audience and brand voice later.</p>
-            <form action={createBrandProject} className="project-form">
-              <label>Project name<input name="name" placeholder="e.g. Personal Brand" required maxLength={80}/></label>
-              <label>Industry <span>Optional</span><input name="industry" placeholder="e.g. Fashion, Fitness, Tech" maxLength={80}/></label>
-              <label>Description <span>Optional</span><textarea name="description" placeholder="What is this brand about?" rows={3} maxLength={500}/></label>
-              <button type="submit"><Plus size={15}/> Create project</button>
+            <h2>Create a brand проєкт</h2>
+            <p>Почни з основ. Аудиторію та стиль бренду можна визначити пізніше.</p>
+            <form action={createBrandProject} className="проєкт-form">
+              <label>Назва проєкту<input name="name" placeholder="Наприклад, особистий бренд" required maxLength={80}/></label>
+              <label>Галузь <span>Необов’язково</span><input name="industry" placeholder="Наприклад, мода, фітнес, технології" maxLength={80}/></label>
+              <label>Опис <span>Необов’язково</span><textarea name="description" placeholder="Про що цей бренд?" rows={3} maxLength={500}/></label>
+              <button type="submit"><Plus size={15}/> Create проєкт</button>
             </form>
-            <div className="project-form-note">Each project stays inside your private workspace.</div>
+            <div className="проєкт-form-note">Each проєкт stays inside your private workspace.</div>
           </aside>
         </div>
       </div>
