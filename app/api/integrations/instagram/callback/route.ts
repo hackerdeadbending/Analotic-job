@@ -20,7 +20,8 @@ function returnToAccounts(request: NextRequest, result: string) {
 export async function GET(request: NextRequest) {
   const cookieName = "socialpilot_ig_oauth";
   const stateCookie = request.cookies.get(cookieName)?.value;
-  let state = null;\n  try { state = verifyInstagramStateCookie(stateCookie, request.nextUrl.searchParams.get("state")); } catch { state = null; }
+  let state = null;
+  try { state = verifyInstagramStateCookie(stateCookie, request.nextUrl.searchParams.get("state")); } catch { state = null; }
   const responseCookie = (response: NextResponse) => {
     response.cookies.set(cookieName, "", { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/api/integrations/instagram", maxAge: 0 });
     return response;
