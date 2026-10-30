@@ -33,7 +33,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           password,
           options: {
             data: { full_name: name.trim() },
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: "https://analotic-job.solopro-laf.workers.dev/auth/callback",
           },
         });
         if (authError) throw authError;
