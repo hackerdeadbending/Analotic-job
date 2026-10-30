@@ -98,7 +98,7 @@ export async function GET(request: NextRequest) {
     const admin = createAdminClient();
     const { data: existing } = await admin
       .from("social_accounts")
-      .select("id,credential_ref")
+      .select("id,credential_ref,brand_project_id")
       .eq("workspace_id", state.workspaceId)
       .eq("platform", "instagram")
       .eq("external_account_id", externalAccountId)
@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
     const expiresAt = new Date(Date.now() + (longToken.expires_in ?? 5_184_000) * 1000).toISOString();
     const accountPayload = {
       workspace_id: state.workspaceId,
-      brand_project_id: state.projectId,
+      brand_project_id: state.projectId ?? existing?.brand_project_id ?? null,
       platform: "instagram",
       external_account_id: externalAccountId,
       username: profile.username ?? null,
