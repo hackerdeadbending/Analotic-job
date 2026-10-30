@@ -10,7 +10,7 @@ type AuthFormProps = { mode: "login" | "signup" };
 
 export function AuthForm({ mode }: AuthFormProps) {
   const [email, setEmail] = useState("");
-  const [password, setПароль] = useState("");
+  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -44,7 +44,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           setNotice("Перевір пошту та підтвердь адресу. Твій робочий простір буде готовий після підтвердження.");
         }
       } else {
-        const { error: authError } = await supabase.auth.signInWithПароль({
+        const { error: authError } = await supabase.auth.signInWithPassword({
           email: email.trim(),
           password,
         });
@@ -70,7 +70,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         <form onSubmit={handleSubmit} className="auth-form">
           {isSignup && <label>Твоє ім’я<input autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Твоє ім’я" required maxLength={80}/></label>}
           <label>Електронна пошта<input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" required/></label>
-          <label>Пароль<input type="password" autoComplete={isSignup ? "new-password" : "current-password"} value={password} onChange={(event) => setПароль(event.target.value)} placeholder={isSignup ? "Щонайменше 8 символів" : "Твій пароль"} minLength={8} required/></label>
+          <label>Пароль<input type="password" autoComplete={isSignup ? "new-password" : "current-password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder={isSignup ? "Щонайменше 8 символів" : "Твій пароль"} minLength={8} required/></label>
           {searchParams.get("setup") === "1" && <p className="auth-notice" role="status">Перед входом налаштуй URL Supabase та публічний ключ у середовищі застосунку.</p>}
           {error && <p className="auth-error" role="alert">{error}</p>}
           {notice && <p className="auth-notice" role="status">{notice}</p>}
